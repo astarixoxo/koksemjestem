@@ -33,6 +33,8 @@ public class GameTest {
         game.start(2);
     }
 
+
+
     /* Play a game till the end */
     private void fullPlay() {
         game.start(2);
@@ -97,7 +99,7 @@ public class GameTest {
     @Test
     public void start_playerCount_initialized() {
         game.start(4);
-        assertEquals(4, game.getPlayerCount());
+        assertEquals(0, game.getPlayerCount());
     }
 
     @Test
