@@ -35,7 +35,7 @@ public class Game implements Model {
 
     @Override
     public int getBoardSize() {
-        return boards.length;
+        return boards[currentPlayerNumber].getSize();
     }
 
     public int pickTile(int value) {

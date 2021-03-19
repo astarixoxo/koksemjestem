@@ -40,8 +40,10 @@ public class Board {
      * @return true if i
      */
     public boolean isInside(Position pos) {
-        return ((pos.getColumn() >= 0 && pos.getColumn() < this.getSize())
-                && (pos.getRow() >= 0 && pos.getRow() < this.getSize()));
+        return ((pos.getColumn() >= 0 
+                && pos.getColumn() < this.getSize())
+                && (pos.getRow() >= 0 
+                && pos.getRow() < this.getSize()));
     }
 
     /**

@@ -9,5 +9,5 @@ public enum State {
     PICK_TILE,
     PLACE_TILE,
     TURN_END,
-    GAME_OVER
+    GAME_OVER;
 }
