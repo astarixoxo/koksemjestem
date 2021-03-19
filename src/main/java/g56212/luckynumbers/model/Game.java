@@ -19,11 +19,13 @@ public class Game implements Model {
     @Override
     public void start(int playerCount) {
         if (state != State.NOT_STARTED && state != State.GAME_OVER) {
-            throw new IllegalStateException("State is not NOT_STARTED or GAME_OVER");
+            throw new IllegalStateException
+        ("State is not NOT_STARTED or GAME_OVER");
 
         }
         if (playerCount < 2 || 4 < playerCount) {
-            throw new IllegalArgumentException("Number of players is not between 2 and 4 (both included)");
+            throw new IllegalArgumentException
+        ("Number of players is not between 2 and 4 (both included)");
         }
         boards = new Board[playerCount];
         for (int i = 0; i < playerCount; i++) {
@@ -61,7 +63,8 @@ public class Game implements Model {
         }
         if (!boards[currentPlayerNumber].isInside(pos)
                 || !boards[currentPlayerNumber].canBePut(pickedTile, pos)) {
-            throw new IllegalArgumentException("position outside of the board, or position not allowed by the rules");
+            throw new IllegalArgumentException
+        ("position outside of the board, or position not allowed by the rules");
         }
         boards[currentPlayerNumber].put(pickedTile, pos);
         state = State.TURN_END;
@@ -98,7 +101,8 @@ public class Game implements Model {
     @Override
     public int getCurrentPlayerNumber() {
         if (state == State.NOT_STARTED && state == State.GAME_OVER) {
-            throw new IllegalStateException("State is not NOT_STARTED OR GAME_OVER");
+            throw new IllegalStateException
+        ("State is not NOT_STARTED OR GAME_OVER");
         }
         return currentPlayerNumber;
     }

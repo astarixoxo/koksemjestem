@@ -73,7 +73,8 @@ public class Board {
         for (int i = 1; i < getSize(); i++) {
             if (pos.getColumn() - i >= 0) {
                 if (tiles[pos.getRow()][pos.getColumn() - i] != null) {
-                    if (tiles[pos.getRow()][pos.getColumn() - i].getValue() >= tile.getValue()) {
+                    if (tiles[pos.getRow()][pos.getColumn() - i].getValue() 
+                            >= tile.getValue()) {
                         return false;
                     }
                 }
@@ -81,21 +82,24 @@ public class Board {
 
             if (pos.getColumn() + i < getSize()) {
                 if (tiles[pos.getRow()][pos.getColumn() + i] != null) {
-                    if (tiles[pos.getRow()][pos.getColumn() + i].getValue() <= tile.getValue()) {
+                    if (tiles[pos.getRow()][pos.getColumn() + i].getValue() 
+                            <= tile.getValue()) {
                         return false;
                     }
                 }
             }
             if (pos.getRow() - i >= 0) {
                 if (tiles[pos.getRow() - i][pos.getColumn()] != null) {
-                    if (tiles[pos.getRow() - i][pos.getColumn()].getValue() >= tile.getValue()) {
+                    if (tiles[pos.getRow() - i][pos.getColumn()].getValue() 
+                            >= tile.getValue()) {
                         return false;
                     }
                 }
             }
             if (pos.getRow() + i < getSize()) {
                 if (tiles[pos.getRow() + i][pos.getColumn()] != null) {
-                    if (tiles[pos.getRow() + i][pos.getColumn()].getValue() <= tile.getValue()) {
+                    if (tiles[pos.getRow() + i][pos.getColumn()].getValue()
+                            <= tile.getValue()) {
                         return false;
                     }
                 }
@@ -107,7 +111,7 @@ public class Board {
     }
 
     /**
-     * Inserts the given tile at the given position without veryfing the
+     * Inserts the given tile at the given position without verifying the
      * condition if it can be inserted or not.
      *
      * @param tile The tile to insert.
