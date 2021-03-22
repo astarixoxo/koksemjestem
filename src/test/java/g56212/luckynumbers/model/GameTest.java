@@ -54,9 +54,11 @@ public class GameTest {
                 line++;
             }
         }
+       
         game.pickTile(20);
         game.putTile(new Position(line,col));
     }
+
 
     @Test
     public void start_when_game_in_progress_ISE() {
@@ -99,7 +101,7 @@ public class GameTest {
     @Test
     public void start_playerCount_initialized() {
         game.start(4);
-        assertEquals(0, game.getPlayerCount());
+        assertEquals(4, game.getPlayerCount());
     }
 
     @Test
@@ -109,4 +111,5 @@ public class GameTest {
     }
 
     /* === À vous de compléter... === */
+
 }

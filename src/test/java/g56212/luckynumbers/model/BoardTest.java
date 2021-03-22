@@ -204,7 +204,7 @@ public class BoardTest {
     public void isFull_true_when_full() {
         /* We fill the board */
         for (int i = 0; i < board.getSize(); i++) {
-            for (int j = 0; j < board.getSize()-1; j++) {
+            for (int j = 0; j < board.getSize(); j++) {
                 board.put(new Tile(1), new Position(i, j));
             }
         }

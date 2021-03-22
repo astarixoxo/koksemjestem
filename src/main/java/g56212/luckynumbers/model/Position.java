@@ -9,7 +9,8 @@ public class Position {
     private int row;
     private int column;
 /**
- * Constructor of a single position, needs the row and the column to be constructed and located in the 2d array.
+ * Constructor of a single position, needs the row and the column
+ * to be constructed and located in the 2d array.
  * @param row row of the 2d array.
  * @param column  column of the 2d array.
  */

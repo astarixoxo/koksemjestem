@@ -40,9 +40,9 @@ public class Board {
      * @return true if i
      */
     public boolean isInside(Position pos) {
-        return ((pos.getColumn() >= 0 
+        return ((pos.getColumn() >= 0
                 && pos.getColumn() < this.getSize())
-                && (pos.getRow() >= 0 
+                && (pos.getRow() >= 0
                 && pos.getRow() < this.getSize()));
     }
 
@@ -73,7 +73,7 @@ public class Board {
         for (int i = 1; i < getSize(); i++) {
             if (pos.getColumn() - i >= 0) {
                 if (tiles[pos.getRow()][pos.getColumn() - i] != null) {
-                    if (tiles[pos.getRow()][pos.getColumn() - i].getValue() 
+                    if (tiles[pos.getRow()][pos.getColumn() - i].getValue()
                             >= tile.getValue()) {
                         return false;
                     }
@@ -82,7 +82,7 @@ public class Board {
 
             if (pos.getColumn() + i < getSize()) {
                 if (tiles[pos.getRow()][pos.getColumn() + i] != null) {
-                    if (tiles[pos.getRow()][pos.getColumn() + i].getValue() 
+                    if (tiles[pos.getRow()][pos.getColumn() + i].getValue()
                             <= tile.getValue()) {
                         return false;
                     }
@@ -90,7 +90,7 @@ public class Board {
             }
             if (pos.getRow() - i >= 0) {
                 if (tiles[pos.getRow() - i][pos.getColumn()] != null) {
-                    if (tiles[pos.getRow() - i][pos.getColumn()].getValue() 
+                    if (tiles[pos.getRow() - i][pos.getColumn()].getValue()
                             >= tile.getValue()) {
                         return false;
                     }
@@ -127,9 +127,9 @@ public class Board {
      * @return True if it's full, if not, false.
      */
     public boolean isFull() {
-        for (int i = 0; i < tiles.length; i++) {
-            for (int j = 0; j < tiles[0].length - 1; j++) {
-                if (tiles[i][j] == null) {
+        for (Tile[] row : this.tiles) {
+            for (Tile tile : row) {
+                if (tile == null) {
                     return false;
                 }
             }
