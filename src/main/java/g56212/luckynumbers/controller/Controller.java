@@ -19,15 +19,12 @@ public class Controller {
 
     public void play() {
         view.displayWelcome();
-        boolean elo = true;
-        while (elo) {
+
+        while (true) {
             switch (game.getState()) {
                 case NOT_STARTED:
-
                     int playerCount = view.askPlayerCount();
-
                     game.start(playerCount);
-
                     break;
                 case PICK_TILE:
                     view.displayGame();
@@ -35,13 +32,10 @@ public class Controller {
                     System.out.println("Picked tile: " + tile);
                     break;
                 case PLACE_TILE:
-                    System.out.println("what the kurwa fack");
                     Position pos = view.askPosition();
                     game.putTile(pos);
-
                     break;
                 case TURN_END:
-                    System.out.println("what the kurwa fack cwelu");
                     game.nextPlayer();
 
                     break;

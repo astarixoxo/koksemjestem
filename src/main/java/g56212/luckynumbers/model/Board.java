@@ -126,10 +126,10 @@ public class Board {
      *
      * @return True if it's full, if not, false.
      */
-    public boolean isFull() {
-        for (Tile[] row : this.tiles) {
-            for (Tile tile : row) {
-                if (tile == null) {
+public boolean isFull() {
+        for (Tile[] lg : tiles) {
+            for (Tile col : lg) {
+                if (col == null) {
                     return false;
                 }
             }

@@ -21,7 +21,7 @@ public class GameTest {
          Tests for start()
        ===================== */
 
-    /* --- test related to the state --- */
+ /* --- test related to the state --- */
     @Test
     public void start_when_game_not_started_ok() {
         game.start(4);
@@ -32,8 +32,6 @@ public class GameTest {
         fullPlay();
         game.start(2);
     }
-
-
 
     /* Play a game till the end */
     private void fullPlay() {
@@ -54,11 +52,9 @@ public class GameTest {
                 line++;
             }
         }
-       
         game.pickTile(20);
-        game.putTile(new Position(line,col));
+        game.putTile(new Position(line, col));
     }
-
 
     @Test
     public void start_when_game_in_progress_ISE() {
@@ -87,7 +83,6 @@ public class GameTest {
 
     @Test
     public void start_playerCount_maximum_accepted() {
-        
         game.start(4);
     }
 
@@ -110,6 +105,50 @@ public class GameTest {
         assertEquals(0, game.getCurrentPlayerNumber());
     }
 
-    /* === À vous de compléter... === */
+    @Test
+    public void nextPlayer_if_current_player_is_player_0() {
+        game.start(2);
+        game.pickTile(1);
+        game.putTile(new Position(0, 0));
+        game.nextPlayer();
+        assertEquals(1, game.getCurrentPlayerNumber());
+    }
 
+    @Test
+    public void nextPlayer_if_current_player_is_player_1() {
+        game.start(2);
+        game.pickTile(1);
+        game.putTile(new Position(0, 0));
+        game.nextPlayer();
+        game.pickTile(1);
+        game.putTile(new Position(0, 0));
+        game.nextPlayer();
+        assertEquals(0, game.getCurrentPlayerNumber());
+    }
+
+    @Test
+    public void start_game_when_game_over_not_enough_players() {
+        fullPlay();
+        assertThrows(IllegalArgumentException.class,
+                () -> game.start(1));
+
+    }
+
+    @Test
+    public void start_game_when_game_over_too_many_players() {
+        fullPlay();
+        assertThrows(IllegalArgumentException.class,
+                () -> game.start(5));
+    }
+    @Test
+    public void get_winner_player0_wins(){
+    fullPlay();
+    assertEquals(0,game.getWinner());
+    }
+    public void get_winner_player1_wins(){
+    
+    }
+
+
+    /* === À vous de compléter... === */
 }

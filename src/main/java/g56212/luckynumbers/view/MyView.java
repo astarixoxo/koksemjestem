@@ -42,15 +42,14 @@ public class MyView implements View {
         for (int i = 0; i < model.getBoardSize(); i++) {
             System.out.print(i + 1 + " |");
             for (int j = 0; j < model.getBoardSize(); j++) {
-                Position pos = new Position(i,j);
-                if(model.getTile(model.getCurrentPlayerNumber(), pos)==null){
+                Position pos = new Position(i, j);
+                if (model.getTile(model.getCurrentPlayerNumber(), pos) == null) {
                     System.out.print(" .");
+
+                } else {
+                    System.out.print(" " + model.getTile(model.getCurrentPlayerNumber(), pos));
                 }
-                else{
-                System.out.print(" "+model.getTile
-        (model.getCurrentPlayerNumber(), pos));
-                }
-                
+
             }
             System.out.println("");
         }
@@ -112,8 +111,7 @@ public class MyView implements View {
      */
     @Override
     public int askPlayerCount() {
-        return readIntBetweenRange
-        ("How many players? (Between 2 and 4 players allowed", 2, 4);
+        return readIntBetweenRange("How many players? (Between 2 and 4 players allowed", 2, 4);
     }
 
     private int readRow(String message) {
@@ -141,9 +139,9 @@ public class MyView implements View {
         pos = new Position(row, col);
         while (!model.isInside(pos) || !model.canTileBePut(pos)) {
             System.out.println("Where would you put your tile?");
-            col =readCol("Insert the column");
+            col = readCol("Insert the column");
             row = readRow("Insert the row");
-      
+
             pos = new Position(row, col);
         }
 
@@ -155,7 +153,6 @@ public class MyView implements View {
      *
      * @param message the error to display.
      */
-
     @Override
     public void displayError(String message) {
         System.err.println(message);

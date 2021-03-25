@@ -1,5 +1,7 @@
 package g56212.luckynumbers.model;
 
+import static g56212.luckynumbers.model.State.*;
+
 /**
  *
  * @author piotr
@@ -13,101 +15,109 @@ public class Game implements Model {
     private Tile pickedTile;
 
     public Game() {
-        this.state = State.NOT_STARTED;
+        this.state = NOT_STARTED;
     }
 
-    @Override
     public void start(int playerCount) {
-        if (state != State.NOT_STARTED && state != State.GAME_OVER) {
-            throw new IllegalStateException("State is not NOT_STARTED or GAME_OVER, state is: "+ state);
-
+        if (state != NOT_STARTED && state != GAME_OVER) {
+            throw new IllegalStateException("");
         }
-        if (playerCount < 2 || 4 < playerCount) {
-            throw new IllegalArgumentException("Number of players is not between 2 and 4 (both included)");
+        if (playerCount < 2 || playerCount > 4) {
+            throw new IllegalArgumentException("");
         }
-        boards = new Board[playerCount];
+        state = PICK_TILE;
+        this.currentPlayerNumber = 0;
+        this.playerCount = playerCount;
+        this.boards = new Board[playerCount];
         for (int i = 0; i < playerCount; i++) {
             boards[i] = new Board();
         }
-        this.playerCount = playerCount;
-        currentPlayerNumber = 0;
-        state = State.PICK_TILE;
+    }
+
+    @Override
+    public Tile pickTile() {
+        if (state != PICK_TILE) {
+            throw new IllegalStateException("State must be PICK_TILE, but"
+                    + " actual state is: " + state);
+        }
+        this.state = PLACE_TILE;
+        return this.pickedTile = new Tile((int) (Math.random() * 20 - 1) + 1);
+    }
+
+    Tile pickTile(int value) {
+        if (state != PICK_TILE) {
+            throw new IllegalStateException("");
+        }
+        this.state = PLACE_TILE;
+        this.pickedTile = new Tile(value);
+        return this.pickedTile;
     }
 
     @Override
     public int getBoardSize() {
-        return boards.length;
-    }
 
-    public int pickTile(int value) {
-        if (state != State.PICK_TILE) {
-            throw new IllegalStateException("State is not PICK_TILE");
-        }
-        state = State.PLACE_TILE;
-        return value;
-    }
-
-    public Tile pickTile() {
-        if (state != State.PICK_TILE) {
-            throw new IllegalStateException("State is not PICK_TILE");
-        }
-        state = State.PLACE_TILE;
-        return pickedTile = new Tile((int) (Math.random() * 20 - 1) + 1);
+        return boards[currentPlayerNumber].getSize();
     }
 
     @Override
     public void putTile(Position pos) {
-        if (state != State.PLACE_TILE) {
-            throw new IllegalStateException("State is not PLACE_TILE");
+        if (this.state != PLACE_TILE) {
+            throw new IllegalStateException(" ");
         }
-        if (!boards[currentPlayerNumber].isInside(pos)
-                || !boards[currentPlayerNumber].canBePut(pickedTile, pos)) {
-            throw new IllegalArgumentException("position outside of the board, or position not allowed by the rules");
+        if (!canTileBePut(pos)) {
+            throw new IllegalArgumentException("");
         }
         boards[currentPlayerNumber].put(pickedTile, pos);
-        state = State.TURN_END;
         if (boards[currentPlayerNumber].isFull()) {
-            state = State.GAME_OVER;
+            this.state = GAME_OVER;
+        } else {
+            this.state = TURN_END;
         }
     }
 
     @Override
     public void nextPlayer() {
-        if (state != State.TURN_END) {
-            throw new IllegalStateException("State is not TURN_END, state is: " + state);
+        if (state != TURN_END) {
+            throw new IllegalStateException("State must be TURN_END, but"
+                    + " actual state is: " + state);
         }
-        this.state=State.PICK_TILE;
-        currentPlayerNumber++;
-        if (currentPlayerNumber >= playerCount) {
-            currentPlayerNumber = 0;
+        state = PICK_TILE;
+        if (this.currentPlayerNumber >= this.playerCount - 1){
+            this.currentPlayerNumber = 0;
+        } else {
+            this.currentPlayerNumber = this.currentPlayerNumber + 1;
         }
     }
 
     @Override
     public int getPlayerCount() {
-        if (state == State.NOT_STARTED) {
-            throw new IllegalStateException("State is not NOT_STARTED");
+        if (this.state == NOT_STARTED) {
+            throw new IllegalStateException("State can't be NOT_STARTED");
         }
-        return playerCount;
+
+        return this.playerCount;
     }
 
     @Override
     public State getState() {
-        return state;
+
+        return this.state;
     }
 
     @Override
     public int getCurrentPlayerNumber() {
-        if (state == State.NOT_STARTED && state == State.GAME_OVER) {
-            throw new IllegalStateException("State is not NOT_STARTED OR GAME_OVER");
+        if (state == NOT_STARTED || state == GAME_OVER) {
+            throw new IllegalStateException("State can't be NOT_STARTED "
+                    + "OR GAME_OVER");
         }
         return currentPlayerNumber;
     }
 
     @Override
     public Tile getPickedTile() {
-        if (state != State.PLACE_TILE) {
-            throw new IllegalStateException("State is not PLACE_TILE ");
+        if (state != PLACE_TILE) {
+            throw new IllegalStateException("State must be PLACE_TILE "
+                    + "but actual state is: "+state);
         }
         return pickedTile;
     }
@@ -119,33 +129,37 @@ public class Game implements Model {
 
     @Override
     public boolean canTileBePut(Position pos) {
+        if (state != PLACE_TILE) {
+            throw new IllegalStateException("State must PLACE_TILE, but"
+                    + "actual state is:  "+state);
+        }
+        if (!boards[currentPlayerNumber].isInside(pos)) {
+            throw new IllegalArgumentException("Given position"
+                    + " isn't inside the board");
+        }
 
-        if (state != State.PLACE_TILE) {
-            throw new IllegalStateException("State is not PLACE_TILE");
-        }
-        if (!isInside(pos)) {
-            throw new IllegalArgumentException("Position outside of the board");
-        }
         return boards[currentPlayerNumber].canBePut(pickedTile, pos);
     }
 
     @Override
     public Tile getTile(int playerNumber, Position pos) {
-        if (state == State.NOT_STARTED) {
-            throw new IllegalStateException("State is NOT_STARTED");
+        if (state == NOT_STARTED) {
+            throw new IllegalStateException("State cannot be NOT_STARTED");
         }
-        if (!isInside(pos)) {
-            throw new IllegalArgumentException("Position outside of the board");
+        if (!isInside(pos) || playerNumber > playerCount || playerNumber < 0) {
+            throw new IllegalArgumentException("Given position isn't inside "
+                    + "the board or given player number isn't between 2 and 4");
         }
+
         return boards[playerNumber].getTile(pos);
     }
 
     @Override
     public int getWinner() {
-        if (state != State.GAME_OVER) {
-            throw new IllegalStateException("State is not GAME_OVER");
+        if (state != GAME_OVER) {
+            throw new IllegalStateException("");
         }
+
         return currentPlayerNumber;
     }
-
 }
