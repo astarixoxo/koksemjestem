@@ -9,7 +9,7 @@ public class Tile {
     private int value;
 
     /**
-     *  Constructor of a tile, with only one single parameter
+     *  Initializes this object(tile) with int as it's value.
      * @param value the value of the tile.
      */
     public Tile(int value) {

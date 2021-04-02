@@ -9,7 +9,8 @@ public class Board {
     private Tile[][] tiles;
 
     /**
-     * Constructor of Tile 2D array that will contains tiles of the size 4 * 4
+     * Initialises an object(board of tiles), by default it's a squared 2D
+     * array by size of 4.
      */
     public Board() {
         this.tiles = new Tile[4][4];

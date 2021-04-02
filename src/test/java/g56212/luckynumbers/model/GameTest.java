@@ -127,6 +127,12 @@ public class GameTest {
     }
 
     @Test
+    public void nextPlayer_when_not_turn_end() {
+        assertThrows(IllegalStateException.class,
+                () -> game.nextPlayer());
+    }
+
+    @Test
     public void start_game_when_game_over_not_enough_players() {
         fullPlay();
         assertThrows(IllegalArgumentException.class,
@@ -140,15 +146,115 @@ public class GameTest {
         assertThrows(IllegalArgumentException.class,
                 () -> game.start(5));
     }
+
     @Test
-    public void get_winner_player0_wins(){
-    fullPlay();
-    assertEquals(0,game.getWinner());
-    }
-    public void get_winner_player1_wins(){
-    
+    public void pick_tile_when_place_tile() {
+        game.start(2);
+        game.pickTile();
+        game.putTile(new Position(0, 0));
+        assertThrows(IllegalStateException.class,
+                () -> game.pickTile());
+
     }
 
+    @Test
+    public void pick_tile_when_not_started() {
+        assertThrows(IllegalStateException.class,
+                () -> game.pickTile());
+    }
+
+    @Test
+    public void pick_tile_when_turn_end() {
+        game.start(2);
+        game.pickTile();
+        game.putTile(new Position(0, 0));
+        game.nextPlayer();
+        assertEquals(new Tile(0), game.pickTile(0));
+    }
+
+    @Test
+    public void put_tile_when_not_started() {
+        assertThrows(IllegalStateException.class,
+                () -> game.putTile(new Position(0, 1)));
+    }
+
+    @Test
+    public void put_tile_when_pick_tile() {
+        game.start(2);
+        assertThrows(IllegalStateException.class,
+                () -> game.putTile(new Position(0, 1)));
+    }
+
+    @Test
+    public void put_tile_when_put_tile() {
+        game.start(2);
+        game.pickTile(5);
+        game.putTile(new Position(0, 0));
+        assertEquals(game.getTile(0, new Position(0, 0)), new Tile(5));
+    }
+
+    @Test
+    public void put_tile_when_turn_end() {
+        game.start(2);
+        game.pickTile();
+        game.putTile(new Position(0, 0));
+        game.nextPlayer();
+        assertThrows(IllegalStateException.class,
+                () -> game.putTile(new Position(0, 1)));
+    }
+
+    @Test
+    public void get_winner_when_not_game_over() {
+        game.start(2);
+        assertThrows(IllegalStateException.class,
+                () -> game.getWinner());
+    }
+
+    @Test
+    public void get_tile_when_not_started() {
+        assertThrows(IllegalStateException.class,
+                () -> game.getTile(0, new Position(0, 0)));
+
+    }
+
+    @Test
+    public void get_picked_tile_when_not_place_tile() {
+        assertThrows(IllegalStateException.class,
+                () -> game.getPickedTile());
+    }
+
+    @Test
+    public void canTileBePut_when_state_not_started() {
+        assertThrows(IllegalStateException.class,
+                () -> game.canTileBePut(new Position(0, 0)));
+    }
+
+    @Test
+    public void canTileBePut_when_not_in_board() {
+        game.start(2);
+        game.pickTile();
+        assertThrows(IllegalArgumentException.class,
+                () -> game.canTileBePut(new Position(5, 1)));
+    }
+
+    @Test
+    public void canTileBePut_when_in_board() {
+        game.start(2);
+        game.pickTile();
+        assertEquals(true, game.canTileBePut(new Position(1, 1)));
+    }
+
+    @Test
+    public void getPlayerCount_when_is_not_started() {
+        assertThrows(IllegalStateException.class,
+                () -> game.getPlayerCount());
+    }
+
+    @Test
+    public void getPlayerCount_when_isnt_not_started() {
+        game.start(2);
+        assertEquals(2, game.getPlayerCount());
+    }
 
     /* === À vous de compléter... === */
 }

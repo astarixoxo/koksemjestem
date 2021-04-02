@@ -13,17 +13,26 @@ public class Game implements Model {
     private int currentPlayerNumber;
     private Board[] boards;
     private Tile pickedTile;
-
+    /**
+     * Initializes the object and changes the state of the game at
+     * NOT_STARTED
+     */
     public Game() {
         this.state = NOT_STARTED;
     }
-
+    /**
+     * Verifies all the conditions necessary to play the game, then it starts up
+     * the game by setting all the parameters and creating all boards.
+     * @param playerCount player number used to
+     */
     public void start(int playerCount) {
         if (state != NOT_STARTED && state != GAME_OVER) {
-            throw new IllegalStateException("");
+            throw new IllegalStateException("State is not NOT_STARTED "
+                    + "OR GAME_OVER");
         }
         if (playerCount < 2 || playerCount > 4) {
-            throw new IllegalArgumentException("");
+            throw new IllegalArgumentException("Number of players isn't correct"
+                    + "must be between 2 and 4");
         }
         state = PICK_TILE;
         this.currentPlayerNumber = 0;
@@ -46,7 +55,8 @@ public class Game implements Model {
 
     Tile pickTile(int value) {
         if (state != PICK_TILE) {
-            throw new IllegalStateException("");
+            throw new IllegalStateException("State isn't PICK_TILE"
+                    + "actual state is: "+state);
         }
         this.state = PLACE_TILE;
         this.pickedTile = new Tile(value);
@@ -62,10 +72,12 @@ public class Game implements Model {
     @Override
     public void putTile(Position pos) {
         if (this.state != PLACE_TILE) {
-            throw new IllegalStateException(" ");
+            throw new IllegalStateException("State isn't PLACE_TILE"
+                    + "actual state is: "+this.state);
         }
         if (!canTileBePut(pos)) {
-            throw new IllegalArgumentException("");
+            throw new IllegalArgumentException("Tile cannot be put in "
+                    + "this position");
         }
         boards[currentPlayerNumber].put(pickedTile, pos);
         if (boards[currentPlayerNumber].isFull()) {
@@ -157,7 +169,8 @@ public class Game implements Model {
     @Override
     public int getWinner() {
         if (state != GAME_OVER) {
-            throw new IllegalStateException("");
+            throw new IllegalStateException("State isn't GAME_OVER, "
+                    + "actual state is:" +this.state);
         }
 
         return currentPlayerNumber;

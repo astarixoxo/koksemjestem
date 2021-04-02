@@ -8,12 +8,11 @@ import g56212.luckynumbers.view.*;
  *
  * @author g56212
  */
-public class Main {
+public class LuckyNumbers {
 
     public static void main(String[] args) {
-        Model game = new Game();
-        MyView view = new MyView(game);
-        Controller controller = new Controller(game, view);
+        Model game = new Game(); 
+        Controller controller = new Controller(game, new MyView(game));
         controller.play();
     }
 }

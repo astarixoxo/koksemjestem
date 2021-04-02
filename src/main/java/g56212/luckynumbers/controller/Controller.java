@@ -28,12 +28,11 @@ public class Controller {
                     break;
                 case PICK_TILE:
                     view.displayGame();
-                    Tile tile = game.pickTile();
-                    System.out.println("Picked tile: " + tile);
+                    game.pickTile();
+
                     break;
                 case PLACE_TILE:
-                    Position pos = view.askPosition();
-                    game.putTile(pos);
+                    game.putTile(view.askPosition());
                     break;
                 case TURN_END:
                     game.nextPlayer();

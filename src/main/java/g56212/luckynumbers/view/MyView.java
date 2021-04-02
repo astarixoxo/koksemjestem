@@ -27,39 +27,43 @@ public class MyView implements View {
         System.out.println("|=============================|");
     }
 
-    @Override
-    public void displayGame() {
+    private void displayUpperFrame() {
         System.out.print("  ");
         for (int i = 1; i <= 4; i++) {
-            System.out.print(" " + i);
+            System.out.print("  " + i);
         }
-        System.out.println("");
+        System.out.println("  ");
         System.out.print("  ");
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < 12; i++) {
             System.out.print("-");
         }
         System.out.println("");
+    }
+
+    private void displayBoard() {
         for (int i = 0; i < model.getBoardSize(); i++) {
             System.out.print(i + 1 + " |");
             for (int j = 0; j < model.getBoardSize(); j++) {
                 Position pos = new Position(i, j);
                 if (model.getTile(model.getCurrentPlayerNumber(), pos) == null) {
-                    System.out.print(" .");
-
+                    System.out.printf("%2s ", ".");
                 } else {
-                    System.out.print(" " + model.getTile(model.getCurrentPlayerNumber(), pos));
+                    System.out.printf("%2s ", model.getTile(model.getCurrentPlayerNumber(), pos).getValue());
                 }
 
             }
             System.out.println("");
         }
-        System.out.println(model.getCurrentPlayerNumber());
     }
 
-    /**
-     * ¨Displays the current player that have attained the end of the game, it
-     * means that the winner is printed.
-     */
+    @Override
+    public void displayGame() {
+        System.out.println("Board of player n° " + model.getCurrentPlayerNumber());
+        displayUpperFrame();
+        displayBoard();
+    }
+
+
     @Override
     public void displayWinner() {
         System.out.println(model.getWinner()
@@ -103,42 +107,31 @@ public class MyView implements View {
         return number;
     }
 
-    /**
-     * Method used to call an another method to read the entry from the keyboard
-     * between range, given in the parameters(always 2,4).
-     *
-     * @return Inserted integer by the user between 2 and 4.
-     */
+
     @Override
     public int askPlayerCount() {
-        return readIntBetweenRange("How many players? (Between 2 and 4 players allowed", 2, 4);
+        return readIntBetweenRange("How many players? (Between 2 and 4 players allowed)", 2, 4);
     }
 
     private int readRow(String message) {
-        return readIntBetweenRange(message, 0, model.getBoardSize());
+        return readIntBetweenRange(message, 0, model.getBoardSize()) - 1;
 
     }
 
     private int readCol(String message) {
-        return readIntBetweenRange(message, 0, model.getBoardSize());
+        return readIntBetweenRange(message, 0, model.getBoardSize()) - 1;
     }
 
-    /**
-     * Demands to the user to insert a position, the col, then the row. It
-     * allows only to create an position that isn't already occupied or out of
-     * the array
-     *
-     * @return position created by the user.
-     */
+
     @Override
     public Position askPosition() {
-        System.out.println("Where would you put your tile?");
+        System.out.println("Where would you put the next tile: "+ model.getPickedTile() +"?");
         Position pos;
         int col = readCol("Insert the column");
         int row = readRow("Insert the row");
         pos = new Position(row, col);
         while (!model.isInside(pos) || !model.canTileBePut(pos)) {
-            System.out.println("Where would you put your tile?");
+            System.out.println("Where would you put the next tile: "+ model.getPickedTile() +"?");
             col = readCol("Insert the column");
             row = readRow("Insert the row");
 
@@ -148,11 +141,7 @@ public class MyView implements View {
         return pos;
     }
 
-    /**
-     * Displays the String given as the parameter in the console, as an error.
-     *
-     * @param message the error to display.
-     */
+
     @Override
     public void displayError(String message) {
         System.err.println(message);
