@@ -50,7 +50,7 @@ public class Game implements Model {
                     + " actual state is: " + state);
         }
         this.state = PLACE_TILE;
-        return this.pickedTile = new Tile((int) (Math.random() * 20 - 1) + 1);
+        return this.pickedTile = new Tile((int) (Math.random() * 20) + 1);
     }
 
     Tile pickTile(int value) {
